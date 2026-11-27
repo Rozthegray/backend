@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -18,7 +18,10 @@ import {
   Mail,
   MessageCircle,
 } from "lucide-react";
-import { VoiceAgentModal } from "@/components/VoiceAgentModal";
+import {
+  VoiceAgentModal,
+  type PrefetchedVoiceToken,
+} from "@/components/VoiceAgentModal";
 import { BlueprintLoader } from "@/components/BlueprintLoader";
 import { SplitShaftHero } from "@/components/SplitShaftHero";
 import { ShaftRailNav } from "@/components/ShaftRailNav";
@@ -192,6 +195,8 @@ const INITIAL_INQUIRY: InquiryFormState = {
 export default function Home() {
   const router = useRouter();
   const [isVoiceOpen, setIsVoiceOpen] = useState(false);
+  const [prefetchedToken, setPrefetchedToken] =
+    useState<PrefetchedVoiceToken | null>(null);
   const [isEmergencyOpen, setIsEmergencyOpen] = useState(false);
   const [isDoorTransitioning, setIsDoorTransitioning] = useState(false);
   const [statusNotice, setStatusNotice] = useState("");
@@ -212,6 +217,28 @@ export default function Home() {
   const [inquiry, setInquiry] = useState<InquiryFormState>(INITIAL_INQUIRY);
 
   const items = [...REVIEWS, ...REVIEWS];
+
+  const prefetchVoiceToken = useCallback(async () => {
+    setPrefetchedToken(null);
+    try {
+      const res = await fetch("/api/get-token", { cache: "no-store" });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.token) {
+        setPrefetchedToken({
+          token: data.token,
+          roomName: data.roomName,
+          issuedAt: data.issuedAt || Date.now(),
+        });
+      }
+    } catch {
+      // VoiceAgentModal will fall back to fetching on demand
+    }
+  }, []);
+
+  useEffect(() => {
+    prefetchVoiceToken();
+  }, [prefetchVoiceToken]);
 
   const handleOpenLiveCall = () => {
     setIsEmergencyOpen(false);
@@ -1339,6 +1366,8 @@ export default function Home() {
       <VoiceAgentModal
         isOpen={isVoiceOpen}
         onClose={() => setIsVoiceOpen(false)}
+        prefetchedToken={prefetchedToken}
+        onTokenConsumed={prefetchVoiceToken}
       />
     </main>
   );

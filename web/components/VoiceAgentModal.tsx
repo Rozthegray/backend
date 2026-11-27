@@ -9,7 +9,7 @@ import {
   useRoomContext,
   useDataChannel,
 } from "@livekit/components-react";
-import { RoomEvent, Track } from "livekit-client";
+import { RoomEvent } from "livekit-client";
 import "@livekit/components-styles";
 import {
   Phone,
@@ -33,6 +33,14 @@ const PHONE_NUMBER = (
 const WHATSAPP_NUMBER = (
   process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "2340000000000"
 ).replace(/\D/g, "");
+
+const TOKEN_MAX_AGE_MS = 45 * 60 * 1000;
+
+export interface PrefetchedVoiceToken {
+  token: string;
+  roomName: string;
+  issuedAt: number;
+}
 
 interface QuotePayload {
   action?: string;
@@ -303,30 +311,12 @@ function WhatsAppCallView({
     };
   }, [hasAgentSpoken, agentState, speakerMuted]);
 
+  // Sync speaker mute state with RoomAudioRenderer's audio elements
   useEffect(() => {
-    if (!room) return;
-
-    const attachTrack = (track: Track) => {
-      if (track.kind === Track.Kind.Audio) {
-        const el = track.attach();
-        el.autoplay = true;
-        el.muted = speakerMuted;
-        el.play().catch(() => {});
-      }
-    };
-
-    room.remoteParticipants.forEach((p) => {
-      p.audioTrackPublications.forEach((pub) => {
-        if (pub.track) attachTrack(pub.track);
-      });
+    document.querySelectorAll("audio").forEach((el) => {
+      el.muted = speakerMuted;
     });
-
-    const onTrackSubscribed = (track: Track) => attachTrack(track);
-    room.on(RoomEvent.TrackSubscribed, onTrackSubscribed);
-    return () => {
-      room.off(RoomEvent.TrackSubscribed, onTrackSubscribed);
-    };
-  }, [room, speakerMuted]);
+  }, [speakerMuted, agentState]);
 
   useEffect(() => {
     if (!room) return;
@@ -501,8 +491,8 @@ function WhatsAppCallView({
 
         {avatarMode === "ringing" ? (
           <p className="mt-3 text-xs text-neutral-400 max-w-xs leading-relaxed">
-            Connecting to agent — she will greet you as soon as the line
-            picks up.
+            Connecting to agent — she will greet you as soon as the line picks
+            up.
           </p>
         ) : (
           spokenLine && (
@@ -513,14 +503,14 @@ function WhatsAppCallView({
         )}
 
         {emergencyActive && (
-          <div className="mt-3 w-full max-w-xs bg-[#A61C1C] border border-white/30 px-3.5 py-2 flex items-center justify-between gap-2 text-left">
+          <div className="mt-3 w-full max-w-xs bg-[#C94F16] border border-white/30 px-3.5 py-2 flex items-center justify-between gap-2 text-left">
             <span className="text-[11px] font-bold flex items-center gap-1.5">
               <AlertTriangle size={14} className="shrink-0" />
               Escalated to management
             </span>
             <a
               href={`tel:${PHONE_NUMBER}`}
-              className="bg-white text-[#A61C1C] px-2 py-1 font-mono text-[10px] font-bold uppercase"
+              className="bg-white text-[#C94F16] px-2 py-1 font-mono text-[10px] font-bold uppercase"
             >
               Call 24/7
             </a>
@@ -617,9 +607,13 @@ function WhatsAppCallView({
 export function VoiceAgentModal({
   isOpen,
   onClose,
+  prefetchedToken,
+  onTokenConsumed,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  prefetchedToken?: PrefetchedVoiceToken | null;
+  onTokenConsumed?: () => void;
 }) {
   const [token, setToken] = useState("");
   const [loading, setLoading] = useState(false);
@@ -628,6 +622,7 @@ export function VoiceAgentModal({
   const [collectedData, setCollectedData] = useState<QuotePayload | null>(null);
   const [whatsappUrl, setWhatsappUrl] = useState("");
   const [summaryText, setSummaryText] = useState("");
+  const autoStartedRef = useRef(false);
 
   const resetCallState = useCallback(() => {
     setToken("");
@@ -639,15 +634,26 @@ export function VoiceAgentModal({
   }, []);
 
   const startSession = useCallback(async () => {
-    setLoading(true);
     setError("");
     setEmergencyActive(false);
     setCollectedData(null);
     setWhatsappUrl("");
     setSummaryText("");
 
+    // Instant path: consume fresh prefetched token with 0ms network delay
+    if (
+      prefetchedToken?.token &&
+      Date.now() - prefetchedToken.issuedAt < TOKEN_MAX_AGE_MS
+    ) {
+      setToken(prefetchedToken.token);
+      onTokenConsumed?.();
+      return;
+    }
+
+    // Fallback path: fetch on demand
+    setLoading(true);
     try {
-      const res = await fetch("/api/get-token");
+      const res = await fetch("/api/get-token", { cache: "no-store" });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to connect call");
       setToken(data.token);
@@ -656,7 +662,18 @@ export function VoiceAgentModal({
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [prefetchedToken, onTokenConsumed]);
+
+  // Auto-connect immediately the moment the modal opens
+  useEffect(() => {
+    if (isOpen && !autoStartedRef.current) {
+      autoStartedRef.current = true;
+      startSession();
+    }
+    if (!isOpen) {
+      autoStartedRef.current = false;
+    }
+  }, [isOpen, startSession]);
 
   const handleClose = () => {
     resetCallState();
@@ -667,7 +684,7 @@ export function VoiceAgentModal({
 
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-      <div className="relative w-full max-w-sm bg-white shadow-2xl border-t-4 border-[#A61C1C] overflow-hidden text-neutral-950">
+      <div className="relative w-full max-w-sm bg-white shadow-2xl border-t-4 border-[#C94F16] overflow-hidden text-neutral-950">
         <button
           type="button"
           onClick={handleClose}
@@ -684,7 +701,7 @@ export function VoiceAgentModal({
         {!token ? (
           <div className="p-6 md:p-7">
             <div className="mb-6 pr-5">
-              <span className="font-mono text-[10px] font-bold tracking-[0.2em] text-[#A61C1C] uppercase">
+              <span className="font-mono text-[10px] font-bold tracking-[0.2em] text-[#C94F16] uppercase">
                 OHIAGWU TECHNICAL DESK
               </span>
               <h3 className="text-xl font-extrabold tracking-tight mt-1">
@@ -692,8 +709,8 @@ export function VoiceAgentModal({
               </h3>
               <p className="text-xs text-neutral-600 mt-1.5 leading-relaxed">
                 Start a live voice call with our desk. She greets you right
-                away, listens to your request, escalates emergencies immediately,
-                and captures your quote details.
+                away, listens to your request, escalates emergencies
+                immediately, and captures your quote details.
               </p>
             </div>
 
@@ -727,7 +744,7 @@ export function VoiceAgentModal({
                 href={`tel:${PHONE_NUMBER}`}
                 className="w-full flex items-center justify-center gap-2 border border-neutral-300 hover:border-black text-neutral-900 py-2.5 px-4 font-mono font-bold uppercase tracking-wider text-xs transition-colors"
               >
-                <Phone size={14} className="text-[#A61C1C]" />
+                <Phone size={14} className="text-[#C94F16]" />
                 Call 24/7 Support Direct
               </a>
             </div>

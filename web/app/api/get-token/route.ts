@@ -7,17 +7,17 @@ export async function GET() {
 
   if (!apiKey || !apiSecret) {
     return NextResponse.json(
-      { error: "LiveKit credentials missing in web/.env.local" },
+      { error: "LiveKit credentials missing in environment variables" },
       { status: 500 }
     );
   }
 
-  const roomName = `elevatorx-${Date.now()}`;
+  const roomName = `elevatorx-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   const participantName = `client-${Math.floor(Math.random() * 10000)}`;
 
   const at = new AccessToken(apiKey, apiSecret, {
     identity: participantName,
-    ttl: "15m",
+    ttl: "1h",
   });
 
   at.addGrant({
@@ -29,5 +29,12 @@ export async function GET() {
   });
 
   const token = await at.toJwt();
-  return NextResponse.json({ token, roomName });
+  return NextResponse.json(
+    { token, roomName, issuedAt: Date.now() },
+    {
+      headers: {
+        "Cache-Control": "no-store, max-age=0",
+      },
+    }
+  );
 }
