@@ -1,116 +1,197 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Layers, Activity, Star, Wrench, HardHat } from "lucide-react";
-import { cn } from "@/lib/utils";
+import * as React from "react";
+import useEmblaCarousel, {
+  type UseEmblaCarouselType,
+} from "embla-carousel-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
-const SERVICES = [
-    { id: "passenger", label: "Passenger Elevator Model A", icon: Layers, image: "/image_6ed462.png", description: "Customized sales solutions to fit your building’s unique requirements." },
-    { id: "escalators", label: "Commercial Escalator X", icon: Activity, image: "/image_6ed445.png", description: "Premium escalators designed for high traffic, safety, and innovation." },
-    { id: "stairlift", label: "Residential Stair Lift Pro", icon: Star, image: "/image_6ed44a.png", description: "Enhance home accessibility with our reliable and safe stair lift solutions." },
-    { id: "maintenance", label: "Maintenance & Repair", icon: Wrench, image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=800", description: "Ensuring your elevators operate safely and smoothly with expert maintenance." },
-    { id: "installation", label: "Installation Services", icon: HardHat, image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80&w=800", description: "Professional installation ensuring seamless integration and long-term performance." }
-];
+type CarouselApi = UseEmblaCarouselType[1];
+type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
+type CarouselOptions = UseCarouselParameters[0];
+type CarouselPlugin = UseCarouselParameters[1];
 
-export const FeatureCarousel = () => {
-    const [step, setStep] = useState(0);
-    const [isPaused, setIsPaused] = useState(false);
-    const currentIndex = ((step % SERVICES.length) + SERVICES.length) % SERVICES.length;
+interface CarouselProps {
+  opts?: CarouselOptions;
+  plugins?: CarouselPlugin;
+  orientation?: "horizontal" | "vertical";
+  setApi?: (api: CarouselApi) => void;
+  className?: string;
+  children: React.ReactNode;
+}
 
-    const nextStep = useCallback(() => setStep((prev) => prev + 1), []);
+interface CarouselContextProps {
+  carouselRef: ReturnType<typeof useEmblaCarousel>[0];
+  api: CarouselApi;
+  scrollPrev: () => void;
+  scrollNext: () => void;
+  canScrollPrev: boolean;
+  canScrollNext: boolean;
+  orientation: "horizontal" | "vertical";
+}
 
-    useEffect(() => {
-        if (isPaused) return;
-        const interval = setInterval(nextStep, 4000);
-        return () => clearInterval(interval);
-    }, [nextStep, isPaused]);
+const CarouselContext = React.createContext<CarouselContextProps | null>(null);
 
-    const getCardStatus = (index: number) => {
-        const diff = index - currentIndex;
-        let normalizedDiff = diff;
-        if (diff > SERVICES.length / 2) normalizedDiff -= SERVICES.length;
-        if (diff < -SERVICES.length / 2) normalizedDiff += SERVICES.length;
-        if (normalizedDiff === 0) return "active";
-        if (normalizedDiff === -1) return "prev";
-        if (normalizedDiff === 1) return "next";
-        return "hidden";
+function useCarousel() {
+  const context = React.useContext(CarouselContext);
+  if (!context) {
+    throw new Error("useCarousel must be used within a <Carousel />");
+  }
+  return context;
+}
+
+function Carousel({
+  orientation = "horizontal",
+  opts,
+  setApi,
+  plugins,
+  className = "",
+  children,
+}: CarouselProps) {
+  const [carouselRef, api] = useEmblaCarousel(
+    {
+      ...opts,
+      axis: orientation === "horizontal" ? "x" : "y",
+    },
+    plugins
+  );
+  const [canScrollPrev, setCanScrollPrev] = React.useState(false);
+  const [canScrollNext, setCanScrollNext] = React.useState(false);
+
+  const onSelect = React.useCallback((emblaApi: CarouselApi) => {
+    if (!emblaApi) return;
+    setCanScrollPrev(emblaApi.canScrollPrev());
+    setCanScrollNext(emblaApi.canScrollNext());
+  }, []);
+
+  const scrollPrev = React.useCallback(() => {
+    api?.scrollPrev();
+  }, [api]);
+
+  const scrollNext = React.useCallback(() => {
+    api?.scrollNext();
+  }, [api]);
+
+  React.useEffect(() => {
+    if (!api || !setApi) return;
+    setApi(api);
+  }, [api, setApi]);
+
+  React.useEffect(() => {
+    if (!api) return;
+    onSelect(api);
+    api.on("reInit", onSelect);
+    api.on("select", onSelect);
+    return () => {
+      api?.off("select", onSelect);
+      api?.off("reInit", onSelect);
     };
+  }, [api, onSelect]);
 
-    return (
-        <div className="w-full max-w-7xl mx-auto py-16 px-6 md:p-12">
-            <div className="mb-12 text-center md:text-left">
-                <h2 className="text-sm font-bold tracking-[0.2em] text-brand-red uppercase mb-4">Our Services</h2>
-                <h3 className="text-3xl md:text-5xl font-heading font-bold tracking-tight text-brand-charcoal mb-6">Innovative Elevator Solutions <br/>for Nigerian Homes</h3>
-                <p className="text-gray-600 max-w-2xl text-base leading-relaxed mx-auto md:mx-0">
-                    Discover our comprehensive elevator services, prioritizing excellence and client care. Trusted elevator and lift maintenance designed for safety and innovation.
-                </p>
-            </div>
+  return (
+    <CarouselContext.Provider
+      value={{
+        carouselRef,
+        api,
+        scrollPrev,
+        scrollNext,
+        canScrollPrev,
+        canScrollNext,
+        orientation,
+      }}
+    >
+      <div
+        role="region"
+        aria-roledescription="carousel"
+        className={`relative ${className}`}
+      >
+        {children}
+      </div>
+    </CarouselContext.Provider>
+  );
+}
 
-            <div className="relative overflow-hidden rounded-[2rem] lg:rounded-[3rem] flex flex-col lg:flex-row min-h-[600px] bg-white border border-gray-200 shadow-xl">
-                <div className="w-full lg:w-[40%] min-h-[350px] lg:h-full relative z-30 flex flex-col items-start justify-center overflow-hidden px-6 md:px-12 bg-transparent">
-                    <div className="relative w-full h-[400px] flex items-center justify-center lg:justify-start z-20">
-                        {SERVICES.map((feature, index) => {
-                            const isActive = index === currentIndex;
-                            const distance = index - currentIndex;
-                            const wrappedDistance = ((((distance - -(SERVICES.length / 2)) % SERVICES.length) + SERVICES.length) % SERVICES.length) + -(SERVICES.length / 2);
+function CarouselContent({
+  className = "",
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  const { carouselRef, orientation } = useCarousel();
 
-                            return (
-                                <motion.div
-                                    key={feature.id}
-                                    style={{ height: 65, width: "fit-content" }}
-                                    animate={{ y: wrappedDistance * 65, opacity: 1 - Math.abs(wrappedDistance) * 0.25, scale: isActive ? 1 : 0.95 }}
-                                    transition={{ type: "spring", stiffness: 90, damping: 22, mass: 1 }}
-                                    className="absolute flex items-center justify-start w-full max-w-[280px]"
-                                >
-                                    <button
-                                        onClick={() => setStep(step + wrappedDistance)}
-                                        onMouseEnter={() => setIsPaused(true)}
-                                        onMouseLeave={() => setIsPaused(false)}
-                                        className={cn("relative flex items-center gap-4 px-5 py-3 rounded-xl transition-all duration-500 text-left w-full border", isActive ? "bg-white border-gray-200 shadow-md z-10" : "bg-transparent border-transparent hover:bg-gray-50")}
-                                    >
-                                        <div className={cn("flex items-center justify-center transition-colors duration-500", isActive ? "text-brand-red" : "text-gray-400")}>
-                                            <feature.icon size={18} />
-                                        </div>
-                                        <span className={cn("font-heading text-sm font-semibold tracking-wide transition-colors uppercase", isActive ? "text-brand-charcoal" : "text-gray-500")}>{feature.label}</span>
-                                    </button>
-                                </motion.div>
-                            );
-                        })}
-                    </div>
-                </div>
+  return (
+    <div ref={carouselRef} className="overflow-hidden">
+      <div
+        className={`flex ${
+          orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col"
+        } ${className}`}
+        {...props}
+      />
+    </div>
+  );
+}
 
-                <div className="flex-1 h-[400px] lg:h-full relative bg-transparent flex items-center justify-center py-12 px-6 lg:px-12 overflow-hidden border-t lg:border-t-0 lg:border-l border-gray-200">
-                    <div className="relative w-full max-w-[420px] aspect-[4/5] flex items-center justify-center">
-                        {SERVICES.map((feature, index) => {
-                            const status = getCardStatus(index);
-                            const isActive = status === "active";
-                            const isPrev = status === "prev";
-                            const isNext = status === "next";
+function CarouselItem({
+  className = "",
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  const { orientation } = useCarousel();
 
-                            return (
-                                <motion.div
-                                    key={feature.id}
-                                    initial={false}
-                                    animate={{ x: isActive ? 0 : isPrev ? -80 : isNext ? 80 : 0, scale: isActive ? 1 : isPrev || isNext ? 0.85 : 0.7, opacity: isActive ? 1 : isPrev || isNext ? 0.3 : 0, rotate: isPrev ? -3 : isNext ? 3 : 0, zIndex: isActive ? 20 : isPrev || isNext ? 10 : 0, pointerEvents: isActive ? "auto" : "none" }}
-                                    transition={{ type: "spring", stiffness: 260, damping: 25, mass: 0.8 }}
-                                    className="absolute inset-0 rounded-[2rem] overflow-hidden border-4 border-white shadow-2xl bg-brand-charcoal origin-center"
-                                >
-                                    <img src={feature.image} alt={feature.label} className={cn("w-full h-full object-cover transition-all duration-700", isActive ? "grayscale-0 blur-0" : "grayscale blur-[2px] brightness-75")} />
-                                    <AnimatePresence>
-                                        {isActive && (
-                                            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} className="absolute inset-x-0 bottom-0 p-8 pt-32 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end">
-                                                <div className="bg-brand-red text-white px-3 py-1 rounded text-[10px] font-bold uppercase tracking-[0.2em] w-fit shadow-md mb-3">{index + 1} / {SERVICES.length}</div>
-                                                <p className="font-heading text-white font-medium text-lg md:text-xl leading-relaxed drop-shadow-md">{feature.description}</p>
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
-                                </motion.div>
-                            );
-                        })}
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
+  return (
+    <div
+      role="group"
+      aria-roledescription="slide"
+      className={`min-w-0 shrink-0 grow-0 basis-full ${
+        orientation === "horizontal" ? "pl-4" : "pt-4"
+      } ${className}`}
+      {...props}
+    />
+  );
+}
+
+function CarouselPrevious({
+  className = "",
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  const { scrollPrev, canScrollPrev } = useCarousel();
+
+  return (
+    <button
+      type="button"
+      onClick={scrollPrev}
+      disabled={!canScrollPrev}
+      className={`h-8 w-8 rounded-full border flex items-center justify-center disabled:opacity-40 ${className}`}
+      {...props}
+    >
+      <ArrowLeft className="h-4 w-4" />
+      <span className="sr-only">Previous slide</span>
+    </button>
+  );
+}
+
+function CarouselNext({
+  className = "",
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  const { scrollNext, canScrollNext } = useCarousel();
+
+  return (
+    <button
+      type="button"
+      onClick={scrollNext}
+      disabled={!canScrollNext}
+      className={`h-8 w-8 rounded-full border flex items-center justify-center disabled:opacity-40 ${className}`}
+      {...props}
+    >
+      <ArrowRight className="h-4 w-4" />
+      <span className="sr-only">Next slide</span>
+    </button>
+  );
+}
+
+export {
+  type CarouselApi,
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
 };
