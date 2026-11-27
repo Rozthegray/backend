@@ -7,8 +7,9 @@ from livekit import rtc
 from livekit.agents import (
     Agent,
     AgentSession,
+    AutoSubscribe,
     JobContext,
-    JobProcess,
+    JobExecutorType,
     RunContext,
     WorkerOptions,
     cli,
@@ -20,18 +21,13 @@ from db import log_lead_and_booking
 from prompts import SYSTEM_INSTRUCTION
 
 ENV_FILE = Path(__file__).resolve().parent / ".env"
-load_dotenv(dotenv_path=ENV_FILE, override=True)
+load_dotenv(dotenv_path=ENV_FILE, override=False)
 
 FAST_PACING_ADDENDUM = """
 Keep every spoken response crisp, direct, and easy to follow (1 to 2 short sentences max).
 When the caller gives a long explanation, acknowledge the key point briefly and ask one clear next question rather than giving a long speech.
 Ignore background music, ambient noise, or partial sounds; only respond to clear human speech directed at you.
 """
-
-
-def prewarm(proc: JobProcess) -> None:
-    # Touch environment/config early so child processes start fast
-    proc.userdata["openai_api_key"] = os.getenv("OPENAI_API_KEY", "")
 
 
 class ElevatorXAgent(Agent):
@@ -211,9 +207,12 @@ class ElevatorXAgent(Agent):
 
 
 async def entrypoint(ctx: JobContext) -> None:
-    openai_api_key = ctx.proc.userdata.get("openai_api_key") or os.getenv("OPENAI_API_KEY")
+    openai_api_key = os.getenv("OPENAI_API_KEY")
     if not openai_api_key:
         raise RuntimeError(f"OPENAI_API_KEY not found in environment or {ENV_FILE}")
+
+    # Connect audio-only immediately (skips video track negotiation)
+    await ctx.connect(auto_subscribe=AutoSubscribe.AUDIO_ONLY)
 
     realtime_model = openai.realtime.RealtimeModel(
         model=os.getenv("OPENAI_REALTIME_MODEL", "gpt-realtime"),
@@ -226,8 +225,8 @@ async def entrypoint(ctx: JobContext) -> None:
             turn_detection={
                 "type": "server_vad",
                 "threshold": 0.72,
-                "prefix_padding_ms": 200,
-                "silence_duration_ms": 600,
+                "prefix_padding_ms": 180,
+                "silence_duration_ms": 450,  # Snappier turn response (down from 600ms)
                 "create_response": True,
                 "interrupt_response": False,
             }
@@ -238,7 +237,6 @@ async def entrypoint(ctx: JobContext) -> None:
     agent = ElevatorXAgent(ctx.room)
     session = AgentSession(llm=realtime_model)
 
-    await ctx.connect()
     await session.start(room=ctx.room, agent=agent)
 
 
@@ -246,7 +244,9 @@ if __name__ == "__main__":
     cli.run_app(
         WorkerOptions(
             entrypoint_fnc=entrypoint,
-            num_idle_processes=0,
+            job_executor_type=JobExecutorType.THREAD,
+            num_idle_processes=1,  # Safe in THREAD mode; eliminates cold-job wait
+            load_threshold=0.95,
             initialize_process_timeout=60.0,
         )
     )
