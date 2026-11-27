@@ -9,7 +9,7 @@ import {
   useRoomContext,
   useDataChannel,
 } from "@livekit/components-react";
-import { RoomEvent } from "livekit-client";
+import { AudioPresets, RoomEvent, type RoomOptions } from "livekit-client";
 import "@livekit/components-styles";
 import {
   Phone,
@@ -35,6 +35,20 @@ const WHATSAPP_NUMBER = (
 ).replace(/\D/g, "");
 
 const TOKEN_MAX_AGE_MS = 45 * 60 * 1000;
+
+const LOW_LATENCY_ROOM_OPTIONS: RoomOptions = {
+  dynacast: true,
+  audioCaptureDefaults: {
+    echoCancellation: true,
+    noiseSuppression: true,
+    autoGainControl: true,
+  },
+  publishDefaults: {
+    dtx: true,
+    red: true,
+    audioPreset: AudioPresets.speech,
+  },
+};
 
 export interface PrefetchedVoiceToken {
   token: string;
@@ -753,6 +767,7 @@ export function VoiceAgentModal({
           <LiveKitRoom
             serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
             token={token}
+            options={LOW_LATENCY_ROOM_OPTIONS}
             connect={true}
             audio={true}
             video={false}

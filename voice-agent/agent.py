@@ -215,7 +215,7 @@ async def entrypoint(ctx: JobContext) -> None:
     await ctx.connect(auto_subscribe=AutoSubscribe.AUDIO_ONLY)
 
     realtime_model = openai.realtime.RealtimeModel(
-        model=os.getenv("OPENAI_REALTIME_MODEL", "gpt-realtime"),
+        model=os.getenv("OPENAI_REALTIME_MODEL", "gpt-realtime-mini"),
         voice=os.getenv("OPENAI_REALTIME_VOICE", "marin"),
         api_key=openai_api_key,
     )
@@ -224,11 +224,11 @@ async def entrypoint(ctx: JobContext) -> None:
         realtime_model.update_options(
             turn_detection={
                 "type": "server_vad",
-                "threshold": 0.72,
-                "prefix_padding_ms": 180,
-                "silence_duration_ms": 450,  # Snappier turn response (down from 600ms)
+                "threshold": 0.65,
+                "prefix_padding_ms": 150,
+                "silence_duration_ms": 400,
                 "create_response": True,
-                "interrupt_response": False,
+                "interrupt_response": True,
             }
         )
     except Exception:
@@ -245,7 +245,7 @@ if __name__ == "__main__":
         WorkerOptions(
             entrypoint_fnc=entrypoint,
             job_executor_type=JobExecutorType.THREAD,
-            num_idle_processes=1,  # Safe in THREAD mode; eliminates cold-job wait
+            num_idle_processes=1,
             load_threshold=0.95,
             initialize_process_timeout=60.0,
         )
