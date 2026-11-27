@@ -307,7 +307,7 @@ export default function Home() {
         onOpenVoice={handleOpenLiveCall}
       />
 
-      {/* 3. WHAT WE DO — WHITE DOMINATED WITH BOLD RED ACCENTS & DRAFTING GRID */}
+      {/* 3. WHAT WE DO — WHITE DOMINATED WITH BOLD ORANGE ACCENTS & DRAFTING GRID */}
       <section
         id="systems"
         className="w-full bg-white py-24 px-5 md:px-10 border-b border-neutral-200 relative"
@@ -320,7 +320,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           {/* Section Header */}
           <div className="max-w-3xl mb-14">
-            <p className="font-mono text-xs uppercase tracking-[0.24em] text-[#A61C1C] font-bold mb-3">
+            <p className="font-mono text-xs uppercase tracking-[0.24em] text-[#C94F16] font-bold mb-3">
               02 // WE ARE ACTIVE NATIONWIDE
             </p>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-neutral-950">
@@ -335,16 +335,16 @@ export default function Home() {
             </p>
           </div>
 
-          {/* 6-Service White Grid with Smaller Icons and Angled Red Corner Cuts */}
+          {/* 6-Service White Grid with Smaller Icons and Angled Orange Corner Cuts */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {CORE_SERVICES_GRID.map((item) => (
               <div
                 key={item.code}
-                className="relative bg-white border border-neutral-200 hover:border-[#A61C1C] p-7 shadow-sm hover:shadow-md transition-all flex flex-col justify-between overflow-hidden group"
+                className="relative bg-white border border-neutral-200 hover:border-[#C94F16] p-7 shadow-sm hover:shadow-md transition-all flex flex-col justify-between overflow-hidden group"
               >
-                {/* Signature Angled Crimson Corner Accent */}
+                {/* Signature Angled Orange Corner Accent */}
                 <div
-                  className="absolute top-0 right-0 w-10 h-10 bg-[#A61C1C]"
+                  className="absolute top-0 right-0 w-10 h-10 bg-[#C94F16]"
                   style={{ clipPath: "polygon(0 0, 100% 0, 100% 100%)" }}
                 />
 
@@ -360,7 +360,7 @@ export default function Home() {
                         className="object-contain mix-blend-multiply"
                       />
                     </div>
-                    <span className="font-mono text-xs font-bold text-[#A61C1C] mr-4">
+                    <span className="font-mono text-xs font-bold text-[#C94F16] mr-4">
                       {item.code} /
                     </span>
                   </div>
@@ -382,7 +382,7 @@ export default function Home() {
                   <span className="text-neutral-500 font-semibold">
                     {item.metaLeft}
                   </span>
-                  <span className="text-[#A61C1C] font-bold">
+                  <span className="text-[#C94F16] font-bold">
                     {item.metaRight}
                   </span>
                 </div>
@@ -397,7 +397,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
             <div>
-              <p className="font-mono text-xs uppercase tracking-[0.24em] text-[#A61C1C] font-bold mb-3">
+              <p className="font-mono text-xs uppercase tracking-[0.24em] text-[#C94F16] font-bold mb-3">
                 03 // SEE BOTH SIDES OF OUR WORK
               </p>
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-neutral-950">
@@ -440,7 +440,7 @@ export default function Home() {
                           }
                           className={`flex-1 py-1.5 uppercase tracking-wider transition-colors cursor-pointer ${
                             mode === "installation"
-                              ? "bg-[#A61C1C] text-white font-bold"
+                              ? "bg-[#C94F16] text-white font-bold"
                               : "text-neutral-300 hover:text-white"
                           }`}
                         >
@@ -466,7 +466,7 @@ export default function Home() {
                     </div>
 
                     <div className="p-6">
-                      <p className="font-mono text-[10px] tracking-[0.2em] text-[#A61C1C] font-bold">
+                      <p className="font-mono text-[10px] tracking-[0.2em] text-[#C94F16] font-bold">
                         {sys.code} // DIRECT SUPPLY
                       </p>
                       <h3 className="text-xl font-bold text-neutral-950 mt-1.5">
@@ -484,7 +484,7 @@ export default function Home() {
                   <div className="px-6 pb-6">
                     <a
                       href="#contact"
-                      className="w-full inline-flex items-center justify-between border border-neutral-900 px-4 py-3 font-mono text-xs font-bold uppercase tracking-wider text-neutral-950 hover:bg-[#A61C1C] hover:border-[#A61C1C] hover:text-white transition-colors"
+                      className="w-full inline-flex items-center justify-between border border-neutral-900 px-4 py-3 font-mono text-xs font-bold uppercase tracking-wider text-neutral-950 hover:bg-[#C94F16] hover:border-[#C94F16] hover:text-white transition-colors"
                     >
                       Get Your Quote <ArrowUpRight size={15} />
                     </a>
@@ -504,7 +504,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
             <div>
-              <p className="font-mono text-xs uppercase tracking-[0.24em] text-[#A61C1C] font-bold mb-3">
+              <p className="font-mono text-xs uppercase tracking-[0.24em] text-[#C94F16] font-bold mb-3">
                 04 // HOW WE WORK ON SITE
               </p>
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-neutral-950">
@@ -526,7 +526,7 @@ export default function Home() {
                   alt="Laser Guide-Rail Alignment"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute top-5 left-5 bg-[#A61C1C] text-white px-3 py-1.5 font-mono text-[10px] font-bold tracking-widest uppercase">
+                <div className="absolute top-5 left-5 bg-[#C94F16] text-white px-3 py-1.5 font-mono text-[10px] font-bold tracking-widest uppercase">
                   STEP 02 // LASER RAIL ALIGNMENT (±0.5MM)
                 </div>
               </div>
@@ -552,7 +552,7 @@ export default function Home() {
                   />
                 </div>
                 <div className="col-span-3 p-5 flex flex-col justify-between">
-                  <span className="font-mono text-[10px] font-bold text-[#A61C1C] tracking-widest uppercase">
+                  <span className="font-mono text-[10px] font-bold text-[#C94F16] tracking-widest uppercase">
                     STEP 01 // SHAFT &amp; PIT CHECK
                   </span>
                   <div>
@@ -599,9 +599,9 @@ export default function Home() {
         id="services"
         className="w-full bg-[#F8F7F5] py-20 px-5 md:px-10 border-b border-neutral-200"
       >
-        <div className="max-w-7xl mx-auto bg-white border-2 border-[#A61C1C] p-8 md:p-12 flex flex-col lg:flex-row lg:items-center justify-between gap-8 shadow-sm">
+        <div className="max-w-7xl mx-auto bg-white border-2 border-[#C94F16] p-8 md:p-12 flex flex-col lg:flex-row lg:items-center justify-between gap-8 shadow-sm">
           <div className="max-w-2xl">
-            <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-[#A61C1C] flex items-center gap-2 mb-3">
+            <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-[#C94F16] flex items-center gap-2 mb-3">
               <Wrench size={14} /> 24/7 SUPPORT &amp; MONTHLY SERVICING
             </p>
             <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-neutral-950">
@@ -617,7 +617,7 @@ export default function Home() {
             <button
               type="button"
               onClick={handleOpenLiveCall}
-              className="inline-flex items-center gap-2 bg-[#A61C1C] hover:bg-black text-white px-6 py-4 font-mono text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 bg-[#C94F16] hover:bg-black text-white px-6 py-4 font-mono text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
             >
               <PhoneCall size={15} /> Call 24/7 Support
             </button>
@@ -626,7 +626,7 @@ export default function Home() {
               onClick={() => setIsEmergencyOpen(true)}
               className="inline-flex items-center gap-2 border border-neutral-900 hover:bg-neutral-900 hover:text-white text-neutral-950 px-6 py-4 font-mono text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
             >
-              <AlertTriangle size={15} className="text-[#A61C1C]" /> Make
+              <AlertTriangle size={15} className="text-[#C94F16]" /> Make
               Enquiries
             </button>
           </div>
@@ -639,7 +639,7 @@ export default function Home() {
         className="w-full bg-white py-20 px-5 md:px-10 border-b border-neutral-200"
       >
         <div className="max-w-7xl mx-auto">
-          <p className="font-mono text-xs font-bold uppercase tracking-[0.24em] text-[#A61C1C] mb-3">
+          <p className="font-mono text-xs font-bold uppercase tracking-[0.24em] text-[#C94F16] mb-3">
             05 // DIRECT FROM MANUFACTURER
           </p>
           <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-neutral-950 mb-10">
@@ -666,9 +666,9 @@ export default function Home() {
             ].map(([title, copy]) => (
               <div
                 key={title}
-                className="border border-neutral-200 border-t-2 border-t-[#A61C1C] p-6 bg-white"
+                className="border border-neutral-200 border-t-2 border-t-[#C94F16] p-6 bg-white"
               >
-                <p className="font-mono text-xs font-bold text-[#A61C1C] mb-2.5">
+                <p className="font-mono text-xs font-bold text-[#C94F16] mb-2.5">
                   {title}
                 </p>
                 <p className="text-sm text-neutral-600 leading-relaxed">
@@ -686,7 +686,7 @@ export default function Home() {
         className="w-full bg-neutral-950 text-white py-24 px-5 md:px-10 relative overflow-hidden"
       >
         <div className="max-w-5xl mx-auto relative z-10 text-center">
-          <p className="font-mono text-xs uppercase tracking-[0.28em] text-[#E63939] font-bold mb-5">
+          <p className="font-mono text-xs uppercase tracking-[0.28em] text-[#F27D2C] font-bold mb-5">
             FLOOR 56 // LEADERSHIP &amp; EXPERIENCE
           </p>
           <blockquote className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight leading-snug text-white">
@@ -703,7 +703,7 @@ export default function Home() {
             <button
               type="button"
               onClick={handleFloor56Transition}
-              className="group inline-flex items-center gap-3 bg-[#A61C1C] hover:bg-white text-white hover:text-black px-8 py-4 font-mono text-xs font-bold uppercase tracking-[0.2em] transition-all cursor-pointer"
+              className="group inline-flex items-center gap-3 bg-[#C94F16] hover:bg-white text-white hover:text-black px-8 py-4 font-mono text-xs font-bold uppercase tracking-[0.2em] transition-all cursor-pointer"
             >
               <span>▲</span>
               READ THE FOUNDER&apos;S STORY
@@ -715,7 +715,7 @@ export default function Home() {
       {/* 9. CLIENT FEEDBACK MARQUEE */}
       <div className="w-full overflow-hidden bg-white py-20 relative border-b border-neutral-200">
         <div className="max-w-7xl mx-auto px-6 mb-12 text-center">
-          <p className="font-mono text-xs font-bold tracking-[0.24em] text-[#A61C1C] uppercase mb-2.5">
+          <p className="font-mono text-xs font-bold tracking-[0.24em] text-[#C94F16] uppercase mb-2.5">
             WHAT OUR CLIENTS SAY
           </p>
           <h3 className="text-2xl md:text-4xl font-extrabold tracking-tight text-neutral-950">
@@ -733,7 +733,7 @@ export default function Home() {
                 key={`${review.id}-${i}`}
                 className="w-[310px] md:w-[400px] whitespace-normal bg-[#F8F7F5] border border-neutral-200 p-7 flex-shrink-0"
               >
-                <div className="flex gap-1 mb-4 text-[#A61C1C]">
+                <div className="flex gap-1 mb-4 text-[#C94F16]">
                   {[...Array(5)].map((_, idx) => (
                     <Star fill="currentColor" key={idx} size={14} />
                   ))}
@@ -756,7 +756,7 @@ export default function Home() {
       </div>
 
       {/* 10. TRUST SIGNALS STRIP */}
-      <div className="w-full bg-[#A61C1C] text-white py-10">
+      <div className="w-full bg-[#C94F16] text-white py-10">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
             [ShieldCheck, "ISO & EN-81 Safety Standards"],
@@ -785,7 +785,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10 pb-6 border-b border-neutral-200">
             <div>
-              <p className="font-mono text-xs font-bold tracking-[0.24em] text-[#A61C1C] uppercase mb-2">
+              <p className="font-mono text-xs font-bold tracking-[0.24em] text-[#C94F16] uppercase mb-2">
                 01 / BUILDING &amp; SITE SUPPLY
               </p>
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-neutral-950">
@@ -802,14 +802,14 @@ export default function Home() {
               <button
                 type="button"
                 onClick={handleOpenLiveCall}
-                className="inline-flex items-center gap-2 bg-neutral-950 hover:bg-[#A61C1C] text-white px-5 py-3.5 font-mono text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                className="inline-flex items-center gap-2 bg-neutral-950 hover:bg-[#C94F16] text-white px-5 py-3.5 font-mono text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
               >
                 <PhoneCall size={15} /> Call Now
               </button>
               <button
                 type="button"
                 onClick={handleOpenLiveCall}
-                className="inline-flex items-center gap-2 border border-[#A61C1C] text-[#A61C1C] hover:bg-[#A61C1C] hover:text-white px-5 py-3.5 font-mono text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                className="inline-flex items-center gap-2 border border-[#C94F16] text-[#C94F16] hover:bg-[#C94F16] hover:text-white px-5 py-3.5 font-mono text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
               >
                 <PhoneCall size={15} /> Call 24/7 Support
               </button>
@@ -834,7 +834,7 @@ export default function Home() {
                     setInquiry({ ...inquiry, name: e.target.value })
                   }
                   placeholder="Contact name"
-                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#A61C1C]"
+                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#C94F16]"
                 />
               </div>
 
@@ -850,7 +850,7 @@ export default function Home() {
                     setInquiry({ ...inquiry, company: e.target.value })
                   }
                   placeholder="Company or organization"
-                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#A61C1C]"
+                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#C94F16]"
                 />
               </div>
             </div>
@@ -869,7 +869,7 @@ export default function Home() {
                     setInquiry({ ...inquiry, location: e.target.value })
                   }
                   placeholder="e.g. Victoria Island, Lagos"
-                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#A61C1C]"
+                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#C94F16]"
                 />
               </div>
 
@@ -884,7 +884,7 @@ export default function Home() {
                     setInquiry({ ...inquiry, projectName: e.target.value })
                   }
                   placeholder="Project name or reference"
-                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#A61C1C]"
+                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#C94F16]"
                 />
               </div>
             </div>
@@ -903,7 +903,7 @@ export default function Home() {
                     setInquiry({ ...inquiry, email: e.target.value })
                   }
                   placeholder="name@company.com"
-                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#A61C1C]"
+                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#C94F16]"
                 />
               </div>
 
@@ -919,7 +919,7 @@ export default function Home() {
                     setInquiry({ ...inquiry, phoneOrWhatsapp: e.target.value })
                   }
                   placeholder="e.g. +234 800 000 0000"
-                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#A61C1C]"
+                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#C94F16]"
                 />
               </div>
             </div>
@@ -936,7 +936,7 @@ export default function Home() {
                   onChange={(e) =>
                     setInquiry({ ...inquiry, projectType: e.target.value })
                   }
-                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#A61C1C]"
+                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#C94F16]"
                 >
                   <option value="">Select one</option>
                   <option value="Commercial & Office Building">
@@ -970,7 +970,7 @@ export default function Home() {
                   onChange={(e) =>
                     setInquiry({ ...inquiry, elevatorType: e.target.value })
                   }
-                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#A61C1C]"
+                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#C94F16]"
                 >
                   <option value="">Select one</option>
                   <option value="Mid & Low-Rise Passenger Lift">
@@ -1010,7 +1010,7 @@ export default function Home() {
                     setInquiry({ ...inquiry, quantity: e.target.value })
                   }
                   placeholder="units"
-                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#A61C1C]"
+                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#C94F16]"
                 />
               </div>
 
@@ -1025,7 +1025,7 @@ export default function Home() {
                     setInquiry({ ...inquiry, floorsAndStops: e.target.value })
                   }
                   placeholder="e.g. 6 floors / 6 stops"
-                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#A61C1C]"
+                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#C94F16]"
                 />
               </div>
 
@@ -1040,7 +1040,7 @@ export default function Home() {
                     setInquiry({ ...inquiry, load: e.target.value })
                   }
                   placeholder="e.g. 1000 kg"
-                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#A61C1C]"
+                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#C94F16]"
                 />
               </div>
 
@@ -1055,7 +1055,7 @@ export default function Home() {
                     setInquiry({ ...inquiry, speed: e.target.value })
                   }
                   placeholder="e.g. 1.75 m/s"
-                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#A61C1C]"
+                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#C94F16]"
                 />
               </div>
             </div>
@@ -1073,7 +1073,7 @@ export default function Home() {
                     setInquiry({ ...inquiry, powerStandard: e.target.value })
                   }
                   placeholder="Voltage, phase and frequency"
-                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#A61C1C]"
+                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#C94F16]"
                 />
               </div>
 
@@ -1088,7 +1088,7 @@ export default function Home() {
                     setInquiry({ ...inquiry, deliveryTerms: e.target.value })
                   }
                   placeholder="e.g. Supply & Installation — Lekki, Lagos"
-                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#A61C1C]"
+                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#C94F16]"
                 />
               </div>
             </div>
@@ -1105,7 +1105,7 @@ export default function Home() {
                   onChange={(e) =>
                     setInquiry({ ...inquiry, projectStage: e.target.value })
                   }
-                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#A61C1C]"
+                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#C94F16]"
                 >
                   <option value="">Select one</option>
                   <option value="Design / Architectural Planning">
@@ -1133,7 +1133,7 @@ export default function Home() {
                   onChange={(e) =>
                     setInquiry({ ...inquiry, targetDelivery: e.target.value })
                   }
-                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#A61C1C]"
+                  className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#C94F16]"
                 />
               </div>
             </div>
@@ -1151,7 +1151,7 @@ export default function Home() {
                   setInquiry({ ...inquiry, requirements: e.target.value })
                 }
                 placeholder="Please describe shaft dimensions, door opening, pit and headroom details, installation schedule, maintenance needs, or other requirements."
-                className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#A61C1C] resize-none"
+                className="w-full bg-white border border-neutral-300 px-4 py-3 text-sm text-neutral-950 focus:outline-none focus:border-[#C94F16] resize-none"
               />
             </div>
 
@@ -1167,7 +1167,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={handleSendEmailQuote}
-                className="inline-flex items-center gap-2 bg-black hover:bg-[#A61C1C] text-white px-6 py-4 font-mono text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                className="inline-flex items-center gap-2 bg-black hover:bg-[#C94F16] text-white px-6 py-4 font-mono text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
               >
                 <Mail size={16} /> Send Email Quote ↗
               </button>
@@ -1210,7 +1210,7 @@ export default function Home() {
           onClick={handleOpenLiveCall}
           className="bg-white hover:bg-neutral-100 text-neutral-950 px-4 py-3 font-mono text-[11px] font-bold uppercase tracking-wider flex items-center gap-2 border-r border-neutral-300 cursor-pointer"
         >
-          <PhoneCall size={14} className="text-[#A61C1C]" /> Call Now
+          <PhoneCall size={14} className="text-[#C94F16]" /> Call Now
         </button>
         <a
           href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
@@ -1237,7 +1237,7 @@ export default function Home() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 20, opacity: 0 }}
-              className="w-full max-w-lg bg-white border-t-4 border-[#A61C1C] p-6 md:p-8 relative shadow-2xl text-neutral-950"
+              className="w-full max-w-lg bg-white border-t-4 border-[#C94F16] p-6 md:p-8 relative shadow-2xl text-neutral-950"
             >
               <button
                 type="button"
@@ -1247,8 +1247,8 @@ export default function Home() {
               >
                 <X size={20} />
               </button>
-              <div className="flex items-center gap-2 font-mono text-xs font-bold text-[#A61C1C] uppercase tracking-widest mb-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#A61C1C] animate-pulse" />
+              <div className="flex items-center gap-2 font-mono text-xs font-bold text-[#C94F16] uppercase tracking-widest mb-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#C94F16] animate-pulse" />
                 24/7 SUPPORT &amp; ENQUIRIES
               </div>
               <h3 className="text-2xl font-extrabold">
@@ -1304,7 +1304,7 @@ export default function Home() {
                   <button
                     type="button"
                     onClick={handleOpenLiveCall}
-                    className="bg-[#A61C1C] hover:bg-black text-white py-3.5 font-mono text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                    className="bg-[#C94F16] hover:bg-black text-white py-3.5 font-mono text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
                   >
                     Call 24/7 Support
                   </button>
@@ -1322,14 +1322,14 @@ export default function Home() {
             <motion.div
               initial={{ x: "-100%" }}
               animate={{ x: "0%" }}
-              transition={{ duration: 0.55, ease: [0.76, 0, 0.24, 1] }}
-              className="w-1/2 h-full bg-black border-r border-[#A61C1C]"
+              transition={{ duration: 0.55, ease: [0.76, 0, 0.24, 1] as const }}
+              className="w-1/2 h-full bg-black border-r border-[#C94F16]"
             />
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: "0%" }}
-              transition={{ duration: 0.55, ease: [0.76, 0, 0.24, 1] }}
-              className="w-1/2 h-full bg-black border-l border-[#A61C1C]"
+              transition={{ duration: 0.55, ease: [0.76, 0, 0.24, 1] as const }}
+              className="w-1/2 h-full bg-black border-l border-[#C94F16]"
             />
           </div>
         )}
