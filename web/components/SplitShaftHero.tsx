@@ -2,11 +2,13 @@
 
 import React from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import {
   ArrowUpRight,
   AlertTriangle,
   PhoneCall,
   MessageCircle,
+  Siren,
 } from "lucide-react";
 
 const LOGO_SRC = "/unnamed-removebg-preview.png";
@@ -14,6 +16,9 @@ const LOGO_SRC = "/unnamed-removebg-preview.png";
 const WHATSAPP_NUMBER = (
   process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "2340000000000"
 ).replace(/\D/g, "");
+
+const MARQUEE_COPY =
+  "Direct factory supply, millimeter-accurate installation, and 24/7 support. No middlemen, no guesswork — just solid engineering built for Nigerian buildings.";
 
 interface SplitShaftHeroProps {
   onOpenEmergency: () => void;
@@ -29,7 +34,7 @@ export function SplitShaftHero({
   )}`;
 
   return (
-    <section className="relative w-full min-h-[100svh] lg:h-screen bg-black text-white flex flex-col justify-between overflow-hidden">
+    <section className="relative w-full min-h-[100svh] bg-black text-white flex flex-col justify-between overflow-hidden">
       {/* LAYER 4 (z-50): Fixed Top Dispatch Bar + Navbar with Logo */}
       <header className="fixed top-0 left-0 right-0 z-50">
         <div className="bg-black text-neutral-300 border-b border-neutral-800 px-4 md:px-10 py-1 text-center font-mono text-[9px] sm:text-[10px] tracking-[0.16em] uppercase">
@@ -134,9 +139,9 @@ export function SplitShaftHero({
         className="absolute inset-0 z-10 bg-black/[0.67] pointer-events-none"
       />
 
-      {/* LAYER 3 (z-20): Left-Aligned Detail Box on Mobile / Full Hero on Desktop */}
-      <div className="relative z-20 max-w-6xl mx-auto w-full px-5 md:px-10 pt-24 pb-8 md:pt-24 md:pb-6 flex-1 flex flex-col justify-center">
-        <div className="w-full max-w-2xl text-left bg-black/0 backdrop-blur-sm border border-white/15 border-l-[3px] border-l-[#C94F16] p-4 shadow-xl md:bg-transparent md:backdrop-blur-none md:border-0 md:p-0 md:shadow-none">
+      {/* LAYER 3 (z-20): Hero Headline, Sliding Marquee & Equal-Size Stacked Boxes */}
+      <div className="relative z-20 max-w-6xl mx-auto w-full px-5 md:px-10 pt-24 pb-8 md:pt-28 md:pb-8 flex-1 flex flex-col justify-center">
+        <div className="w-full max-w-2xl text-left">
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#F27D2C] mb-2 font-bold">
             OHIAGWU INTERNATIONAL // LAGOS &amp; NATIONWIDE
           </p>
@@ -146,23 +151,82 @@ export function SplitShaftHero({
             Elevators &amp; Escalators That Work. No Excuses.
           </h1>
 
-          {/* Detailed Body Copy — Primary block on mobile, subtitle on desktop */}
-          <p className="mt-1 md:mt-3 text-sm lg:text-[15px] text-neutral-100 md:text-neutral-200 max-w-xl leading-relaxed">
-            Direct factory supply, millimeter-accurate installation, and 24/7
-            support. No middlemen, no guesswork—just solid engineering built
-            for Nigerian buildings.
-          </p>
+          {/* Sliding Marquee Write-Up Above the Two Boxes */}
+          <div className="mt-2 md:mt-4 relative w-full overflow-hidden bg-black/55 backdrop-blur-sm border border-white/15 border-l-[3px] border-l-[#C94F16] py-2.5">
+            <motion.div
+              className="flex w-max whitespace-nowrap"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ ease: "linear", duration: 22, repeat: Infinity }}
+            >
+              <span className="text-xs sm:text-sm font-medium text-neutral-100 pr-10 flex items-center gap-3">
+                <span>{MARQUEE_COPY}</span>
+                <span className="text-[#F27D2C] font-mono">///</span>
+              </span>
+              <span
+                aria-hidden="true"
+                className="text-xs sm:text-sm font-medium text-neutral-100 pr-10 flex items-center gap-3"
+              >
+                <span>{MARQUEE_COPY}</span>
+                <span className="text-[#F27D2C] font-mono">///</span>
+              </span>
+            </motion.div>
+          </div>
         </div>
 
-        {/* Two Full CTA Boxes — Left-Aligned with Full Write-Ups on Mobile & Desktop */}
-        <div className="mt-4 md:mt-7 w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-3.5">
-          {/* CTA 01: Supply & Installation */}
-          <div className="bg-white text-black p-4 lg:p-5 border-t-[3px] border-neutral-900 shadow-2xl flex flex-col justify-between text-left">
+        {/* Two Equal-Size Stacked CTA Boxes */}
+        <div className="mt-4 md:mt-5 w-full max-w-2xl grid grid-cols-1 auto-rows-fr gap-3.5">
+          {/* BOX 01 (Top): Red Emergency, Fault & Maintenance — Quick Response */}
+          <div className="h-full bg-red-600 text-white p-4 lg:p-5 border-t-[3px] border-white shadow-[0_0_30px_rgba(220,38,38,0.45)] flex flex-col justify-between text-left">
+            <div>
+              <div className="flex items-center justify-between gap-2">
+                <p className="font-mono text-[10px] font-bold tracking-[0.18em] uppercase text-white flex items-center gap-2">
+                  <span className="relative flex h-2.5 w-2.5 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-80" />
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white" />
+                  </span>
+                  <span role="img" aria-label="Emergency alarm">
+                    🚨
+                  </span>
+                  01 // QUICK RESPONSE • 24/7 ACTIVE
+                </p>
+                <Siren size={16} className="text-white/90 animate-pulse shrink-0" />
+              </div>
+
+              <h2 className="text-base lg:text-lg font-extrabold mt-1.5 uppercase tracking-tight">
+                🚨 Emergency, Fault &amp; Maintenance
+              </h2>
+              <p className="text-xs text-red-50 mt-1.5 leading-relaxed">
+                Immediate rapid response for stuck lifts, drive faults, urgent
+                breakdown repairs with genuine parts, and reliable monthly AMC
+                servicing.
+              </p>
+            </div>
+
+            <div className="mt-4 flex flex-wrap items-center justify-start gap-2">
+              <button
+                type="button"
+                onClick={onOpenVoice}
+                className="inline-flex items-center gap-1.5 bg-white hover:bg-black text-red-600 hover:text-white px-4 py-2.5 font-mono text-[11px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
+              >
+                <PhoneCall size={14} /> Quick Emergency Call
+              </button>
+              <button
+                type="button"
+                onClick={onOpenEmergency}
+                className="inline-flex items-center gap-1.5 border border-white/70 hover:bg-white hover:text-red-600 text-white px-3.5 py-2.5 font-mono text-[11px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
+              >
+                <AlertTriangle size={13} /> Report Fault Now
+              </button>
+            </div>
+          </div>
+
+          {/* BOX 02 (Directly Under, Exact Same Size): Installation & Supply */}
+          <div className="h-full bg-white text-black p-4 lg:p-5 border-t-[3px] border-neutral-900 shadow-2xl flex flex-col justify-between text-left">
             <div>
               <p className="font-mono text-[10px] font-bold tracking-[0.18em] uppercase text-[#C94F16]">
-                01 // INSTALLATION &amp; SUPPLY
+                02 // INSTALLATION &amp; SUPPLY
               </p>
-              <h2 className="text-base lg:text-lg font-extrabold mt-1">
+              <h2 className="text-base lg:text-lg font-extrabold mt-1.5">
                 Get Your Quote or Make Enquiries
               </h2>
               <p className="text-xs text-neutral-600 mt-1.5 leading-relaxed">
@@ -170,6 +234,7 @@ export function SplitShaftHero({
                 malls, hotels, and renovations.
               </p>
             </div>
+
             <div className="mt-4 flex flex-wrap items-center justify-start gap-2">
               <a
                 href="#contact"
@@ -192,39 +257,6 @@ export function SplitShaftHero({
               >
                 <MessageCircle size={13} /> WhatsApp
               </a>
-            </div>
-          </div>
-
-          {/* CTA 02: 24/7 Emergency & Maintenance */}
-          <div className="bg-[#C94F16] text-white p-4 lg:p-5 border-t-[3px] border-white shadow-2xl flex flex-col justify-between text-left">
-            <div>
-              <p className="font-mono text-[10px] font-bold tracking-[0.18em] uppercase text-white/90 flex items-center justify-start gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                02 // 24/7 EMERGENCY &amp; AMC
-              </p>
-              <h2 className="text-base lg:text-lg font-extrabold mt-1">
-                Lift Fault or Monthly Servicing?
-              </h2>
-              <p className="text-xs text-white/90 mt-1.5 leading-relaxed">
-                Fast breakdown repair with genuine parts and dependable monthly
-                AMC maintenance.
-              </p>
-            </div>
-            <div className="mt-4 flex flex-wrap items-center justify-start gap-2">
-              <button
-                type="button"
-                onClick={onOpenVoice}
-                className="inline-flex items-center gap-1.5 bg-white hover:bg-black text-[#C94F16] hover:text-white px-4 py-2.5 font-mono text-[11px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
-              >
-                <PhoneCall size={14} /> Call 24/7 Support
-              </button>
-              <button
-                type="button"
-                onClick={onOpenEmergency}
-                className="inline-flex items-center gap-1.5 border border-white/50 hover:border-white text-white px-3.5 py-2.5 font-mono text-[11px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
-              >
-                <AlertTriangle size={13} /> Make Enquiries
-              </button>
             </div>
           </div>
         </div>
@@ -250,4 +282,4 @@ export function SplitShaftHero({
       </div>
     </section>
   );
-}
+      }
