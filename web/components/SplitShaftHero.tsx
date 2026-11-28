@@ -19,7 +19,7 @@ const WHATSAPP_NUMBER = (
 
 const MARQUEE_BRAND = "OHIAGWU INTERNATIONAL // LAGOS & NATIONWIDE";
 const MARQUEE_COPY =
-  "Direct factory supply, precision installation & 24/7 support.";
+  "Direct factory supply, millimeter-accurate installation, and 24/7 support. No middlemen, no guesswork — just solid engineering built for Nigerian buildings.";
 
 interface SplitShaftHeroProps {
   onOpenEmergency: () => void;
@@ -37,31 +37,31 @@ export function SplitShaftHero({
   const renderMarqueeItem = (hidden = false) => (
     <span
       aria-hidden={hidden || undefined}
-      className="flex items-center gap-2.5 pr-8 text-[11px] sm:text-xs whitespace-nowrap"
+      className="flex items-center gap-3 pr-10 text-[11px] sm:text-xs whitespace-nowrap"
     >
-      <span className="font-mono font-bold uppercase tracking-[0.16em] text-[#F27D2C]">
+      <span className="font-mono font-bold uppercase tracking-[0.18em] text-[#F27D2C]">
         {MARQUEE_BRAND}
       </span>
       <span className="text-white/35 font-mono">•</span>
-      <span className="text-neutral-200">{MARQUEE_COPY}</span>
+      <span className="font-medium text-neutral-100">{MARQUEE_COPY}</span>
       <span className="text-[#C94F16] font-mono font-bold">///</span>
     </span>
   );
 
   return (
-    <section className="relative w-full min-h-[100svh] bg-black text-white flex flex-col justify-between overflow-hidden">
-      {/* LAYER 4 (z-50): Fixed Top Dispatch Bar + Navbar */}
+    <section className="relative w-full min-h-[100svh] bg-black text-white flex flex-col justify-between overflow-hidden pt-[80px] sm:pt-[88px] md:pt-[104px]">
+      {/* LAYER 4 (z-50): Fixed Top Dispatch Bar (24px) + Navbar (56px / 64px / 80px) */}
       <header className="fixed top-0 left-0 right-0 z-50">
-        <div className="bg-black text-neutral-300 border-b border-neutral-800 px-3 md:px-10 py-1 text-center font-mono text-[8px] sm:text-[10px] tracking-[0.14em] uppercase truncate">
+        <div className="h-6 bg-black text-neutral-300 border-b border-neutral-800 px-3 md:px-10 flex items-center justify-center font-mono text-[8px] sm:text-[10px] tracking-[0.14em] uppercase truncate">
           24/7 SUPPORT ACTIVE{" "}
           <span className="text-[#C94F16] mx-1">//</span> INSTALLATION, AMC &amp;
           EMERGENCY REPAIR
         </div>
 
-        <div className="bg-black/90 backdrop-blur-md border-b border-white/10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-10 h-14 sm:h-16 md:h-20 flex items-center justify-between">
+        <div className="h-14 sm:h-16 md:h-20 bg-black/90 backdrop-blur-md border-b border-white/10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-10 h-full flex items-center justify-between">
             <a href="#top" className="flex items-center shrink-0">
-              <div className="relative h-10 w-32 sm:h-13 sm:w-40 md:h-16 md:w-52 shrink-0">
+              <div className="relative h-10 w-32 sm:h-12 sm:w-40 md:h-16 md:w-52 shrink-0">
                 <Image
                   src={LOGO_SRC}
                   alt="Ohiagwu International — Elevator X"
@@ -154,113 +154,112 @@ export function SplitShaftHero({
         className="absolute inset-0 z-10 bg-black/60 pointer-events-none"
       />
 
-      {/* LAYER 3 (z-20): Cleared Below Header + Sliding Marquee + Equal-Size Stacked Boxes */}
-      <div className="relative z-20 max-w-6xl mx-auto w-full px-4 sm:px-6 md:px-10 pt-24 sm:pt-28 md:pt-32 pb-5 md:pb-8 flex-1 flex flex-col justify-center">
-        <div className="w-full max-w-xl text-left">
-          {/* Desktop Headline */}
-          <h1 className="hidden md:block text-4xl lg:text-[42px] font-extrabold tracking-tight leading-[1.08] text-white uppercase">
-            Elevators &amp; Escalators That Work.
-          </h1>
+      {/* FIRST CONTENT: Full-Width Marquee Flush Directly Below Navbar (0.71 Opacity) */}
+      <div className="relative z-20 w-full overflow-hidden bg-black/[0.71] backdrop-blur-sm border-b border-white/15 py-2.5">
+        <motion.div
+          className="flex w-max whitespace-nowrap"
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ ease: "linear", duration: 24, repeat: Infinity }}
+        >
+          {renderMarqueeItem(false)}
+          {renderMarqueeItem(true)}
+        </motion.div>
+      </div>
 
-          {/* Sliding Marquee */}
-          <div className="md:mt-3 relative w-full overflow-hidden bg-black/60 backdrop-blur-sm border border-white/15 border-l-[3px] border-l-[#C94F16] py-2 sm:py-2.5">
-            <motion.div
-              className="flex w-max whitespace-nowrap"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ ease: "linear", duration: 20, repeat: Infinity }}
-            >
-              {renderMarqueeItem(false)}
-              {renderMarqueeItem(true)}
-            </motion.div>
-          </div>
-        </div>
+      {/* LAYER 3 (z-20): Desktop Headline + Two Equal-Size Stacked CTA Boxes */}
+      <div className="relative z-20 max-w-6xl mx-auto w-full px-4 sm:px-6 md:px-10 py-5 sm:py-7 flex-1 flex flex-col justify-center">
+        {/* Desktop Headline */}
+        <h1 className="hidden md:block max-w-2xl text-4xl lg:text-[42px] xl:text-5xl font-extrabold tracking-tight leading-[1.08] text-white uppercase mb-5">
+          Elevators &amp; Escalators That Work. No Excuses.
+        </h1>
 
         {/* Two Equal-Size Stacked CTA Boxes */}
-        <div className="mt-3 sm:mt-4 w-full max-w-xl grid grid-cols-1 auto-rows-fr gap-2.5 sm:gap-3.5">
+        <div className="w-full max-w-2xl grid grid-cols-1 auto-rows-fr gap-3 sm:gap-3.5">
           {/* BOX 01 (White): Emergency, Fault & Maintenance — Red Alarm Only */}
-          <div className="h-full bg-white text-black p-3.5 sm:p-5 border-t-[3px] border-black shadow-2xl flex flex-col justify-between text-left">
+          <div className="h-full bg-white text-black p-4 sm:p-5 border-t-[3px] border-black shadow-2xl flex flex-col justify-between text-left">
             <div>
               <div className="flex items-center justify-between gap-2">
                 <p className="font-mono text-[9px] sm:text-[10px] font-bold tracking-[0.16em] uppercase text-neutral-600 flex items-center gap-1.5">
-                  <span className="relative flex h-2 w-2 shrink-0">
+                  <span className="relative flex h-2.5 w-2.5 shrink-0">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-80" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-600" />
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600" />
                   </span>
                   <span role="img" aria-label="Emergency alarm">
                     🚨
                   </span>
-                  <span>01 // QUICK RESPONSE</span>
+                  <span>01 // QUICK RESPONSE • 24/7 ACTIVE</span>
                 </p>
 
                 <Siren
-                  size={15}
+                  size={16}
                   className="text-red-600 animate-pulse shrink-0"
                 />
               </div>
 
-              <h2 className="text-sm sm:text-lg font-extrabold mt-1 text-black uppercase tracking-tight">
+              <h2 className="text-base sm:text-lg font-extrabold mt-1.5 text-black uppercase tracking-tight">
                 Emergency, Fault &amp; Maintenance
               </h2>
-              <p className="text-[11px] sm:text-xs text-neutral-600 mt-1 leading-snug">
-                Fast breakdown repair, genuine parts &amp; monthly AMC
+              <p className="text-xs text-neutral-600 mt-1.5 leading-relaxed">
+                Immediate rapid response for stuck lifts, drive faults, urgent
+                breakdown repairs with genuine parts, and reliable monthly AMC
                 servicing.
               </p>
             </div>
 
-            <div className="mt-3 sm:mt-4 flex flex-wrap items-center gap-2">
+            <div className="mt-3.5 sm:mt-4 flex flex-wrap items-center justify-start gap-2">
               <button
                 type="button"
                 onClick={onOpenVoice}
-                className="inline-flex items-center gap-1.5 bg-black hover:bg-[#C94F16] text-white px-3 sm:px-4 py-2 font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 bg-black hover:bg-[#C94F16] text-white px-3.5 sm:px-4 py-2 sm:py-2.5 font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
               >
-                <PhoneCall size={12} /> Call Support
+                <PhoneCall size={13} /> Quick Emergency Call
               </button>
               <button
                 type="button"
                 onClick={onOpenEmergency}
-                className="inline-flex items-center gap-1.5 border border-neutral-300 hover:border-black text-black px-3 py-2 font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 border border-neutral-300 hover:border-black text-black px-3 sm:px-3.5 py-2 sm:py-2.5 font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
               >
-                <AlertTriangle size={12} /> Report Fault
+                <AlertTriangle size={13} /> Report Fault Now
               </button>
             </div>
           </div>
 
           {/* BOX 02 (Orange, Exact Same Size): Installation & Supply */}
-          <div className="h-full bg-[#C94F16] text-white p-3.5 sm:p-5 border-t-[3px] border-white shadow-2xl flex flex-col justify-between text-left">
+          <div className="h-full bg-[#C94F16] text-white p-4 sm:p-5 border-t-[3px] border-white shadow-2xl flex flex-col justify-between text-left">
             <div>
-              <p className="font-mono text-[9px] sm:text-[10px] font-bold tracking-[0.16em] uppercase text-white/85">
+              <p className="font-mono text-[9px] sm:text-[10px] font-bold tracking-[0.16em] uppercase text-white/90">
                 02 // INSTALLATION &amp; SUPPLY
               </p>
-              <h2 className="text-sm sm:text-lg font-extrabold mt-1 text-white uppercase tracking-tight">
-                Get Your Quote or Enquiries
+              <h2 className="text-base sm:text-lg font-extrabold mt-1.5 text-white uppercase tracking-tight">
+                Get Your Quote or Make Enquiries
               </h2>
-              <p className="text-[11px] sm:text-xs text-white/90 mt-1 leading-snug">
-                Passenger lifts &amp; escalators for homes, malls, and
-                commercial sites.
+              <p className="text-xs text-white/90 mt-1.5 leading-relaxed">
+                Passenger lifts, escalators, and travelators for new buildings,
+                malls, hotels, and renovations.
               </p>
             </div>
 
-            <div className="mt-3 sm:mt-4 flex flex-wrap items-center gap-2">
+            <div className="mt-3.5 sm:mt-4 flex flex-wrap items-center justify-start gap-2">
               <a
                 href="#contact"
-                className="inline-flex items-center gap-1.5 bg-white hover:bg-black text-black hover:text-white px-3 sm:px-4 py-2 font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider transition-colors"
+                className="inline-flex items-center gap-1.5 bg-white hover:bg-black text-black hover:text-white px-3.5 sm:px-4 py-2 sm:py-2.5 font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider transition-colors"
               >
-                Get Quote <ArrowUpRight size={13} />
+                Get Your Quote <ArrowUpRight size={13} />
               </a>
               <button
                 type="button"
                 onClick={onOpenVoice}
-                className="inline-flex items-center gap-1.5 border border-white/50 hover:bg-white hover:text-black text-white px-3 py-2 font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 border border-white/50 hover:bg-white hover:text-black text-white px-3 sm:px-3.5 py-2 sm:py-2.5 font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
               >
-                <PhoneCall size={12} /> Call
+                <PhoneCall size={13} /> Call Now
               </button>
               <a
                 href={whatsappQuickUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 bg-black/25 hover:bg-black border border-white/25 text-white px-3 py-2 font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider transition-colors"
+                className="inline-flex items-center gap-1.5 bg-black/25 hover:bg-black border border-white/25 text-white px-3 sm:px-3.5 py-2 sm:py-2.5 font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider transition-colors"
               >
-                <MessageCircle size={12} /> WhatsApp
+                <MessageCircle size={13} /> WhatsApp
               </a>
             </div>
           </div>
@@ -271,13 +270,13 @@ export function SplitShaftHero({
       <div className="relative z-20 w-full bg-black/90 border-t border-neutral-800 py-2 px-4 sm:px-6 md:px-10">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-x-3 gap-y-1 font-mono text-[9px] sm:text-[10px] tracking-[0.12em] uppercase text-neutral-400">
           <div>
-            COVERAGE: <span className="text-white">NATIONWIDE</span>
+            COVERAGE: <span className="text-white">LAGOS &amp; NATIONWIDE</span>
           </div>
           <div>
-            EXPERIENCE: <span className="text-white">20+ YEARS</span>
+            EXPERIENCE: <span className="text-white">20+ YEARS ON SITE</span>
           </div>
           <div>
-            ALIGNMENT: <span className="text-white">±0.5MM PLUMB</span>
+            ALIGNMENT: <span className="text-white">±0.5MM LASER PLUMB</span>
           </div>
           <div>
             SUPPORT:{" "}
@@ -287,4 +286,4 @@ export function SplitShaftHero({
       </div>
     </section>
   );
-                }
+}
