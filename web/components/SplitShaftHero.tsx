@@ -287,4 +287,4 @@ export function SplitShaftHero({
       </div>
     </section>
   );
-}
+                }
