@@ -44,7 +44,7 @@ export function SplitShaftHero({
   );
 
   return (
-    <section className="relative w-full min-h-[100svh] bg-black text-white flex flex-col justify-between overflow-hidden pt-16 md:pt-20">
+    <section className="relative w-full min-h-[100svh] bg-black text-white flex flex-col overflow-hidden pt-16 md:pt-20">
       {/* Clean Single Fixed Navbar */}
       <header className="fixed top-0 left-0 right-0 z-50 h-16 md:h-20 bg-black/95 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto px-5 md:px-10 h-full flex items-center justify-between">
@@ -124,7 +124,7 @@ export function SplitShaftHero({
       </div>
 
       {/* Main Hero Area */}
-      <div className="relative z-20 max-w-6xl mx-auto w-full px-5 md:px-10 pt-16 sm:pt-20 md:pt-12 pb-8 flex-1 flex flex-col justify-end md:justify-center">
+      <div className="relative z-20 max-w-6xl mx-auto w-full px-5 md:px-10 pt-16 sm:pt-20 md:pt-12 pb-20 md:pb-12 flex-1 flex flex-col justify-end md:justify-center">
         <div className="max-w-2xl text-left mb-6 md:mb-8">
           <h1 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl tracking-[-0.025em] leading-[1.08] text-white">
             Elevators &amp; Escalators Built to Work.{" "}
@@ -256,24 +256,6 @@ export function SplitShaftHero({
                 <PhoneCall size={13} /> Speak to Engineer
               </button>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Minimal Bottom Proof Strip (Cleared Above Sticky Mobile Bar) */}
-      <div className="relative z-20 w-full bg-black/90 border-t border-white/10 pt-3 pb-16 md:pb-3 px-5 md:px-10">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-y-1.5 gap-x-4 font-mono text-[10px] tracking-[0.14em] uppercase text-neutral-400">
-          <div>
-            EXPERIENCE: <span className="text-white">20+ YEARS</span>
-          </div>
-          <div>
-            ALIGNMENT: <span className="text-white">±0.5MM LASER</span>
-          </div>
-          <div>
-            SUPPLY: <span className="text-white">FACTORY DIRECT</span>
-          </div>
-          <div>
-            DISPATCH: <span className="text-[#F27D2C]">24/7 ACTIVE</span>
           </div>
         </div>
       </div>
